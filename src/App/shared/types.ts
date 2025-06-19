@@ -37,3 +37,17 @@ export class DashboardListData {
     this.sla = sla;
   }
 }
+type ProgressBarData = {
+  label: string;
+  percent: number;
+  values: number[];
+};
+export type GroupData = {
+  values: number[];
+  sla: number;
+};
+export type GroupDataBar = {
+  values: ProgressBarData[];
+  sla: number;
+  count?: number;
+};

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Panel from "./Panel/Panel";
+import Panel from "../Panel/Panel";
 import {
   ListColumnData,
   ItemData,
-} from "../../UIKit/CustomList/CustomListTypes";
-import CustomList from "../../UIKit/CustomList/CustomList";
-import Scripts from "../shared/utils/clientScripts";
-import { DashboardListData } from "../shared/types";
+} from "../../../UIKit/CustomList/CustomListTypes";
+import CustomList from "../../../UIKit/CustomList/CustomList";
+import Scripts from "../../shared/utils/clientScripts";
+import { DashboardListData } from "../../shared/types";
 
 /** Дашборд */
-function DashboardPanel() {
+function TaskPanel() {
   const [reloadKey, setReloadKey] = useState(0);
   const [lastUpdateTime, setLastUpdateTime] = useState(
     new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
@@ -143,4 +143,4 @@ function DashboardPanel() {
   );
 }
 
-export default DashboardPanel;
+export default TaskPanel;

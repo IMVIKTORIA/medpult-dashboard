@@ -3,7 +3,10 @@
 @import url("./reset.scss");
 @import url("./UIKit/shared/style.scss");
 @import url("../src/App/components/Panel/panel.scss");
-@import url("../src/App/components/dashboardPanel.scss");
+@import url("../src/App/components/TaskPanel/taskPanel.scss");
+@import url("../src/App/components/DiagramPanel/diagramPanel.scss");
+@import url("../src/App/components/DiagramPanel/CardDiagram/cardDiagram.scss");
+@import url("../src/App/components/DiagramPanel/CircleDiagram/circleDiagram.scss");
 
 :root {
   --medpult-bg-color: #f2f4f6;

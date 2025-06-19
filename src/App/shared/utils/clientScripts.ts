@@ -1,5 +1,5 @@
 import { FetchData } from "../../../UIKit/CustomList/CustomListTypes";
-import { DashboardListData } from "../types";
+import { DashboardListData, GroupData, GroupDataBar } from "../types";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -38,7 +38,7 @@ async function getTask(): Promise<FetchData<DashboardListData>> {
   const mockGroupData = Array(2).fill(mockGroupItem);
 
   return {
-    items: Array(10)
+    items: Array(6)
       .fill(0)
       .map((_, index) => {
         const data = new DashboardListData(mockData);
@@ -72,7 +72,90 @@ async function getTaskSum(): Promise<FetchData<DashboardListData>> {
   };
 }
 
+async function getRequestData(): Promise<GroupDataBar> {
+  await randomDelay();
+  return {
+    count: 360,
+    sla: 91,
+    values: [
+      { label: "Новое", percent: 45, values: [12, 18, 15] },
+      { label: "В работе", percent: 12, values: [12, 18, 15] },
+      { label: "Открыто", percent: 34, values: [12, 18, 15] },
+    ],
+  };
+}
+
+async function getTaskData(): Promise<GroupDataBar> {
+  await randomDelay();
+  return {
+    count: 2680,
+    sla: 80,
+    values: [
+      { label: "В очереди", percent: 45, values: [12, 0, 15] },
+      { label: "Возвращена", percent: 12, values: [12, 18, 0] },
+      { label: "В работе", percent: 34, values: [12, 0, 0] },
+      { label: "Контроль", percent: 40, values: [12, 18, 15] },
+      { label: "Отложена", percent: 21, values: [12, 18, 15] },
+    ],
+  };
+}
+
+async function getGroupApproval(): Promise<GroupData> {
+  await randomDelay();
+  return {
+    values: [25, 7, 4],
+    sla: 30,
+  };
+}
+async function getGroupUrgently(): Promise<GroupData> {
+  await randomDelay();
+  return {
+    values: [35, 3, 2],
+    sla: 86,
+  };
+}
+async function getGroupPlan(): Promise<GroupData> {
+  await randomDelay();
+  return {
+    values: [45, 7, 4],
+    sla: 91,
+  };
+}
+async function getGroupRecording(): Promise<GroupData> {
+  await randomDelay();
+  return {
+    values: [15, 4, 7],
+    sla: 30,
+  };
+}
+
+async function getGroupClaim(): Promise<GroupData> {
+  await randomDelay();
+  return {
+    values: [25, 15, 3],
+    sla: 15,
+  };
+}
+
+async function getGroupDefense(): Promise<GroupData> {
+  await randomDelay();
+  return {
+    values: [25, 7, 14],
+    sla: 73,
+  };
+}
+
 export default {
   getTask,
   getTaskSum,
+
+  getRequestData,
+  getTaskData,
+
+  getGroupApproval,
+  getGroupUrgently,
+  getGroupPlan,
+  getGroupRecording,
+  getGroupClaim,
+  getGroupDefense,
 };
