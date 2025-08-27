@@ -2,19 +2,19 @@ export class DashboardListData {
   /** Группа */
   group?: string;
   /** В очереди */
-  queue?: string[];
+  queue?: number[];
   /** Возвращена */
-  returned?: string[];
+  returned?: number[];
   /** В работе */
-  atWork?: string[];
+  atWork?: number[];
   /** Контроль */
-  control?: string[];
+  control?: number[];
   /** Отложена */
-  postpone?: string[];
+  postpone?: number;
   /** Выполнено */
-  complete?: string[];
+  complete?: number;
   /** Sla */
-  sla?: string;
+  sla?: number;
   groupData?: DashboardListData[];
 
   constructor({

@@ -9,29 +9,23 @@ import Scripts from "../../shared/utils/clientScripts";
 import { DashboardListData } from "../../shared/types";
 
 /** Дашборд */
-function TaskPanel() {
-  const [reloadKey, setReloadKey] = useState(0);
+function TaskPanel({
+  reloadKey,
+  onReload,
+}: {
+  reloadKey: number;
+  onReload: () => void;
+}) {
   const [lastUpdateTime, setLastUpdateTime] = useState(
     new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   );
-
   // Функция для обновления данных
   const reloadData = () => {
-    setReloadKey((prev) => prev + 1);
     setLastUpdateTime(
       new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     );
+    onReload();
   };
-  // Автообновление каждые 5 минут
-  useEffect(() => {
-    const interval = setInterval(
-      () => {
-        reloadData();
-      },
-      5 * 60 * 1000
-    );
-    return () => clearInterval(interval);
-  }, []);
 
   /** Колонки списка */
   const columns = [

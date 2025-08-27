@@ -15,24 +15,24 @@ async function getTask(): Promise<FetchData<DashboardListData>> {
 
   const mockData: DashboardListData = {
     group: "Согласование",
-    queue: ["21", "3", "0"],
-    returned: ["1", "0", "0"],
-    atWork: ["13", "0", "1"],
-    control: ["35", "7", "2"],
-    postpone: ["21", "2", "0"],
-    complete: ["104", "10", "1"],
-    sla: "91%",
+    queue: [21, 3, 0],
+    returned: [1, 0, 0],
+    atWork: [13, 0, 1],
+    control: [35, 7, 2],
+    postpone: 21,
+    complete: 104,
+    sla: 91,
   };
 
   const mockGroupItem = new DashboardListData({
     group: "Иванов Иван Иванович",
-    queue: ["21", "3", "0"],
-    returned: ["1", "0", "0"],
-    atWork: ["13", "4", "1"],
-    control: ["35", "7", "2"],
-    postpone: ["21", "2", "0"],
-    complete: ["104", "10", "1"],
-    sla: "75%",
+    queue: [21, 3, 0],
+    returned: [1, 0, 0],
+    atWork: [13, 4, 1],
+    control: [35, 7, 2],
+    postpone: 21,
+    complete: 104,
+    sla: 75,
   });
 
   const mockGroupData = Array(2).fill(mockGroupItem);
@@ -57,13 +57,13 @@ async function getTaskSum(): Promise<FetchData<DashboardListData>> {
 
   const sumData: DashboardListData = {
     group: "Итого:",
-    queue: ["21", "3", "0"],
-    returned: ["1", "0", "0"],
-    atWork: ["13", "4", "1"],
-    control: ["35", "7", "2"],
-    postpone: ["21", "2", "0"],
-    complete: ["104", "10", "1"],
-    sla: "30%",
+    queue: [21, 3, 0],
+    returned: [1, 0, 0],
+    atWork: [13, 4, 1],
+    control: [35, 7, 2],
+    postpone: 21,
+    complete: 104,
+    sla: 30,
   };
 
   return {
@@ -145,6 +145,10 @@ async function getGroupDefense(): Promise<GroupData> {
   };
 }
 
+async function OnInit(): Promise<void> {
+  await randomDelay();
+}
+
 export default {
   getTask,
   getTaskSum,
@@ -158,4 +162,6 @@ export default {
   getGroupRecording,
   getGroupClaim,
   getGroupDefense,
+
+  OnInit,
 };

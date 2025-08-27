@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ItemData, ListColumnData } from "../CustomListTypes";
 
 interface ListColumnProps extends ListColumnData {
-  data: string | string[];
+  data: string | number;
   listRef?: React.RefObject<HTMLDivElement>;
   rowData?: any;
 }
@@ -23,12 +23,10 @@ function CustomListRowColumn(props: ListColumnProps) {
     }
   };
 
-  const getSlaColor = (slaValue: string): string => {
-    const num = parseFloat(slaValue.replace("%", ""));
-
-    if (isNaN(num)) return "#2D2E2F";
-    if (num > 90) return "#21A038";
-    if (num >= 70) return "#FF9F45";
+  const getSlaColor = (slaValue: number): string => {
+    if (isNaN(slaValue)) return "#2D2E2F";
+    if (slaValue > 90) return "#21A038";
+    if (slaValue >= 70) return "#FF9F45";
     return "#FF4545";
   };
 
@@ -38,7 +36,7 @@ function CustomListRowColumn(props: ListColumnProps) {
   const textWeight = isGroupColumn && !isGroupRow ? "400" : "600";
 
   let slaTextColor: string | undefined;
-  if (code === "sla" && typeof data === "string") {
+  if (code === "sla" && typeof data === "number") {
     slaTextColor = getSlaColor(data);
   }
   const textColor = slaTextColor ?? groupTextColor ?? undefined;
@@ -66,8 +64,8 @@ function CustomListRowColumn(props: ListColumnProps) {
         }}
       >
         {Array.isArray(data) ? (
-          data.map((value, idx) =>
-            value === "0" ? null : (
+          (data as (string | number)[]).map((value, idx) =>
+            Number(value) === 0 ? null : (
               <span
                 key={idx}
                 style={{
@@ -77,7 +75,7 @@ function CustomListRowColumn(props: ListColumnProps) {
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                 }}
-                title={value}
+                title={String(value)}
               >
                 {value}
               </span>
@@ -90,9 +88,9 @@ function CustomListRowColumn(props: ListColumnProps) {
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
             }}
-            title={data}
+            title={String(data)}
           >
-            {data}
+            {code === "sla" && typeof data === "number" ? `${data}%` : data}
           </span>
         )}
       </span>
