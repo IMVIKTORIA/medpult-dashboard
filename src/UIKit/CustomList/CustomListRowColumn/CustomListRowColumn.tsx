@@ -64,8 +64,9 @@ function CustomListRowColumn(props: ListColumnProps) {
         }}
       >
         {Array.isArray(data) ? (
-          (data as (string | number)[]).map((value, idx) =>
-            Number(value) === 0 ? null : (
+          (data as (string | number)[]).map((value, idx) => {
+            if ((idx === 1 || idx === 2) && Number(value) === 0) return null;
+            return (
               <span
                 key={idx}
                 style={{
@@ -79,8 +80,8 @@ function CustomListRowColumn(props: ListColumnProps) {
               >
                 {value}
               </span>
-            )
-          )
+            );
+          })
         ) : (
           <span
             style={{

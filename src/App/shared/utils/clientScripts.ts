@@ -16,7 +16,7 @@ async function getTask(): Promise<FetchData<DashboardListData>> {
   const mockData: DashboardListData = {
     group: "Согласование",
     queue: [21, 3, 0],
-    returned: [1, 0, 0],
+    returned: [0, 0, 0],
     atWork: [13, 0, 1],
     control: [35, 7, 2],
     postpone: 21,
@@ -60,7 +60,7 @@ async function getTaskSum(): Promise<FetchData<DashboardListData>> {
     queue: [21, 3, 0],
     returned: [1, 0, 0],
     atWork: [13, 4, 1],
-    control: [35, 7, 2],
+    control: [0, 0, 0],
     postpone: 21,
     complete: 104,
     sla: 30,
