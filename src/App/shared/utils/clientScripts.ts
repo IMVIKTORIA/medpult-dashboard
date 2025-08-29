@@ -103,7 +103,7 @@ async function getTaskData(): Promise<GroupDataBar> {
 async function getGroupApproval(): Promise<GroupData> {
   await randomDelay();
   return {
-    values: [25, 7, 4],
+    values: [0, 0, 0],
     sla: 30,
   };
 }

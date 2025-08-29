@@ -19,28 +19,39 @@ function CircleDiagram({ title, segments, sla }) {
     <div className="circle-diagram">
       <span className="circle-diagram__title">{title}</span>
       <svg width={radius * 2} height={radius * 2}>
-        {segments.map((seg, i) => {
-          const valueRatio = seg.value / total;
-          const dash = valueRatio * circumference;
+        {total === 0 ? (
+          <circle
+            r={normalizedRadius}
+            cx={radius}
+            cy={radius}
+            fill="transparent"
+            stroke="#ccc"
+            strokeWidth={strokeWidth}
+          />
+        ) : (
+          segments.map((seg, i) => {
+            const valueRatio = seg.value / total;
+            const dash = valueRatio * circumference;
 
-          const segment = (
-            <circle
-              key={i}
-              r={normalizedRadius}
-              cx={radius}
-              cy={radius}
-              fill="transparent"
-              stroke={seg.color}
-              strokeWidth={strokeWidth}
-              strokeDasharray={`${dash} ${circumference - dash}`}
-              strokeDashoffset={offset}
-              transform={`rotate(-90 ${radius} ${radius})`}
-            />
-          );
+            const segment = (
+              <circle
+                key={i}
+                r={normalizedRadius}
+                cx={radius}
+                cy={radius}
+                fill="transparent"
+                stroke={seg.color}
+                strokeWidth={strokeWidth}
+                strokeDasharray={`${dash} ${circumference - dash}`}
+                strokeDashoffset={offset}
+                transform={`rotate(-90 ${radius} ${radius})`}
+              />
+            );
 
-          offset -= dash;
-          return segment;
-        })}
+            offset -= dash;
+            return segment;
+          })
+        )}
 
         {/* SLA в центре */}
         <text
