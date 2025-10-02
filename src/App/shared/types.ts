@@ -43,6 +43,10 @@ type ProgressBarData = {
   values: number[];
 };
 export type GroupData = {
+  /** Идентификатор группы */
+  groupId: string;
+  /** Название группы */
+  groupName: string;
   values: number[];
   sla: number;
 };
