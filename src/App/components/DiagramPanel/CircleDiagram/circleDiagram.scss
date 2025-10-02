@@ -16,5 +16,11 @@
     color: #2d2e2f;
     line-height: 20px;
     flex-wrap: wrap;
+
+    text-align: center;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }

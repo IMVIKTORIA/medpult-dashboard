@@ -4,8 +4,8 @@ export interface GroupMockData {
 }
 
 // Массивы с возможными элементами имени группы
-const adjectives: string[] = ['Быстрая', 'Яркая', 'Красивая', 'Умная', 'Свободная'];
-const nouns: string[] = ['Звезда', 'Волна', 'Свет', 'Планета', 'Энергия'];
+const adjectives: string[] = ['Очень Очень огромная', 'Слишком Чересчур Кошмарно Яркая', 'Красивая', 'Умная', 'Свободная'];
+const nouns: string[] = ['Супер Пупер Звезда', 'Волна', 'Свет', 'Планета', 'Энергия'];
 
 export function generateGroupsMock(n: number): GroupMockData[] {
   const groups: GroupMockData[] = [];
