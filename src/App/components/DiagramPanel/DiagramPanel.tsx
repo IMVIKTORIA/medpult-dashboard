@@ -12,44 +12,23 @@ function DiagramPanel() {
 
   const [request, setRequest] = useState<GroupDataBar | null>(null);
   const [task, setTask] = useState<GroupDataBar | null>(null);
-
-  const [approval, setApproval] = useState<GroupData | null>(null);
-  const [urgently, setUrgently] = useState<GroupData | null>(null);
-  const [plan, setPlan] = useState<GroupData | null>(null);
-  const [recording, setRecording] = useState<GroupData | null>(null);
-  const [claim, setClaim] = useState<GroupData | null>(null);
-  const [defense, setDefense] = useState<GroupData | null>(null);
+  const [groupsData, setGroupsData] = useState<GroupData[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         setIsLoading(true);
         const [
-          approvalData,
-          urgentlyData,
-          planData,
-          recordingData,
-          claimData,
-          defenseData,
+          groupsData,
           taskData,
           requestData,
         ] = await Promise.all([
-          Scripts.getGroupApproval(),
-          Scripts.getGroupUrgently(),
-          Scripts.getGroupPlan(),
-          Scripts.getGroupRecording(),
-          Scripts.getGroupClaim(),
-          Scripts.getGroupDefense(),
+          Scripts.getGroupsData(),
           Scripts.getTaskData(),
           Scripts.getRequestData(),
         ]);
 
-        setApproval(approvalData);
-        setUrgently(urgentlyData);
-        setPlan(planData);
-        setRecording(recordingData);
-        setClaim(claimData);
-        setDefense(defenseData);
+        setGroupsData(groupsData);
         setTask(taskData);
         setRequest(requestData);
       } catch (error) {
@@ -75,48 +54,32 @@ function DiagramPanel() {
 
   return (
     <div className="diagram-panel">
-      <CardDiagram
-        title="Обращения"
-        value={request?.count}
-        sla={request?.sla}
-        progressValues={request?.values}
-      />
-      <CardDiagram
-        title="Задачи"
-        value={task?.count}
-        sla={task?.sla}
-        progressValues={task?.values}
-      />
-      <CircleDiagram
-        title="Согласование"
-        segments={toSegments(approval?.values || [])}
-        sla={approval?.sla}
-      />
-      <CircleDiagram
-        title="Экстренная"
-        segments={toSegments(urgently?.values || [])}
-        sla={urgently?.sla}
-      />
-      <CircleDiagram
-        title="Плановая"
-        segments={toSegments(plan?.values || [])}
-        sla={plan?.sla}
-      />
-      <CircleDiagram
-        title="Запись"
-        segments={toSegments(recording?.values || [])}
-        sla={recording?.sla}
-      />
-      <CircleDiagram
-        title="Претензия"
-        segments={toSegments(claim?.values || [])}
-        sla={claim?.sla}
-      />
-      <CircleDiagram
-        title="Защита +"
-        segments={toSegments(defense?.values || [])}
-        sla={defense?.sla}
-      />
+      <div className="diagram-panel__cards">
+        <CardDiagram
+          title="Обращения"
+          value={request?.count}
+          sla={request?.sla}
+          progressValues={request?.values}
+        />
+        <CardDiagram
+          title="Задачи"
+          value={task?.count}
+          sla={task?.sla}
+          progressValues={task?.values}
+        />
+      </div>
+      <div className="diagram-panel__circles">
+        {
+          groupsData.map(groupData =>
+            <CircleDiagram
+              title={groupData.groupName}
+              segments={toSegments(groupData.values || [])}
+              sla={groupData.sla}
+              key={groupData.groupId}
+            />
+          )
+        }
+      </div>
     </div>
   );
 }

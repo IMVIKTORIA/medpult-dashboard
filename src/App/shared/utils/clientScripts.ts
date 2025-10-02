@@ -1,5 +1,6 @@
 import { FetchData } from "../../../UIKit/CustomList/CustomListTypes";
 import { DashboardListData, GroupData, GroupDataBar } from "../types";
+import { generateGroupsMock, GroupMockData } from "./groupsGenerator";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -38,13 +39,23 @@ async function getTask(): Promise<FetchData<DashboardListData>> {
   const mockGroupData = Array(2).fill(mockGroupItem);
 
   return {
-    items: Array(6)
-      .fill(0)
-      .map((_, index) => {
+    items: groupsBuffer
+      .map(groupMockData => {
         const data = new DashboardListData(mockData);
+        
+        data.queue = [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())];
+        data.returned = [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())];
+        data.atWork = [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())];
+        data.control = [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())];
+        data.postpone = Math.floor(50*Math.random());
+        data.complete = Math.floor(50*Math.random());
+        data.sla = Math.floor(100*Math.random());
+
+        data.group = groupMockData.groupName;
         data.groupData = mockGroupData;
+
         return {
-          id: String(index),
+          id: groupMockData.groupId,
           data,
         };
       }),
@@ -57,13 +68,13 @@ async function getTaskSum(): Promise<FetchData<DashboardListData>> {
 
   const sumData: DashboardListData = {
     group: "Итого:",
-    queue: [21, 3, 0],
-    returned: [1, 0, 0],
-    atWork: [13, 4, 1],
-    control: [0, 0, 0],
-    postpone: 21,
-    complete: 104,
-    sla: 30,
+    queue: [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())],
+    returned: [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())],
+    atWork: [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())],
+    control: [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())],
+    postpone: Math.floor(50*Math.random()),
+    complete: Math.floor(50*Math.random()),
+    sla: Math.floor(100*Math.random()),
   };
 
   return {
@@ -100,51 +111,26 @@ async function getTaskData(): Promise<GroupDataBar> {
   };
 }
 
-async function getGroupApproval(): Promise<GroupData> {
+async function getGroupsData(): Promise<GroupData[]> {
   await randomDelay();
-  return {
-    values: [0, 0, 0],
-    sla: 30,
-  };
-}
-async function getGroupUrgently(): Promise<GroupData> {
-  await randomDelay();
-  return {
-    values: [35, 3, 2],
-    sla: 86,
-  };
-}
-async function getGroupPlan(): Promise<GroupData> {
-  await randomDelay();
-  return {
-    values: [45, 7, 4],
-    sla: 91,
-  };
-}
-async function getGroupRecording(): Promise<GroupData> {
-  await randomDelay();
-  return {
-    values: [15, 4, 7],
-    sla: 30,
-  };
+
+  let groupsData: GroupData[] = [];
+
+  for(const currentGroup of groupsBuffer) {
+    const currentGroupData: GroupData = {
+      groupId: currentGroup.groupId,
+      groupName: currentGroup.groupName,
+      sla: Math.floor(100*Math.random()),
+      values: [Math.floor(100*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())]
+    }
+
+    groupsData.push(currentGroupData)
+  }
+
+  return groupsData;
 }
 
-async function getGroupClaim(): Promise<GroupData> {
-  await randomDelay();
-  return {
-    values: [25, 15, 3],
-    sla: 15,
-  };
-}
-
-async function getGroupDefense(): Promise<GroupData> {
-  await randomDelay();
-  return {
-    values: [25, 7, 14],
-    sla: 73,
-  };
-}
-
+const groupsBuffer: GroupMockData[] = generateGroupsMock(9);
 async function OnInit(): Promise<void> {
   await randomDelay();
 }
@@ -156,12 +142,6 @@ export default {
   getRequestData,
   getTaskData,
 
-  getGroupApproval,
-  getGroupUrgently,
-  getGroupPlan,
-  getGroupRecording,
-  getGroupClaim,
-  getGroupDefense,
-
   OnInit,
+  getGroupsData,
 };
