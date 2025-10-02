@@ -110,10 +110,9 @@ function TaskPanel({
   };
 
   return (
-    <div>
+    <div className="task-panel">
       <Panel label={"Задачи"} time={lastUpdateTime} onReload={reloadData}>
-        <div style={{ padding: "0" }}>
-          <CustomList
+        <CustomList
             key={reloadKey}
             columnsSettings={columns}
             getDataHandler={Scripts.getTask}
@@ -121,7 +120,6 @@ function TaskPanel({
             getDetailsLayout={getDetailsLayout}
             hideHeader={false}
           />
-        </div>
       </Panel>
       {/*Общая строка*/}
       <div className="total-list-row">

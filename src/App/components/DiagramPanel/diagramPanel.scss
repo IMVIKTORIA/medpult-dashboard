@@ -1,5 +1,22 @@
 .diagram-panel {
   display: flex;
   gap: 16px;
-  margin: 10px;
+
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__circles {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(auto, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    
+    gap: 16px;
+    width: 100%;
+    height: fit-content;
+  }
 }

@@ -75,48 +75,52 @@ function DiagramPanel() {
 
   return (
     <div className="diagram-panel">
-      <CardDiagram
-        title="Обращения"
-        value={request?.count}
-        sla={request?.sla}
-        progressValues={request?.values}
-      />
-      <CardDiagram
-        title="Задачи"
-        value={task?.count}
-        sla={task?.sla}
-        progressValues={task?.values}
-      />
-      <CircleDiagram
-        title="Согласование"
-        segments={toSegments(approval?.values || [])}
-        sla={approval?.sla}
-      />
-      <CircleDiagram
-        title="Экстренная"
-        segments={toSegments(urgently?.values || [])}
-        sla={urgently?.sla}
-      />
-      <CircleDiagram
-        title="Плановая"
-        segments={toSegments(plan?.values || [])}
-        sla={plan?.sla}
-      />
-      <CircleDiagram
-        title="Запись"
-        segments={toSegments(recording?.values || [])}
-        sla={recording?.sla}
-      />
-      <CircleDiagram
-        title="Претензия"
-        segments={toSegments(claim?.values || [])}
-        sla={claim?.sla}
-      />
-      <CircleDiagram
-        title="Защита +"
-        segments={toSegments(defense?.values || [])}
-        sla={defense?.sla}
-      />
+      <div className="diagram-panel__cards">
+        <CardDiagram
+          title="Обращения"
+          value={request?.count}
+          sla={request?.sla}
+          progressValues={request?.values}
+        />
+        <CardDiagram
+          title="Задачи"
+          value={task?.count}
+          sla={task?.sla}
+          progressValues={task?.values}
+        />
+      </div>
+      <div className="diagram-panel__circles">
+        <CircleDiagram
+          title="Согласование"
+          segments={toSegments(approval?.values || [])}
+          sla={approval?.sla}
+        />
+        <CircleDiagram
+          title="Экстренная"
+          segments={toSegments(urgently?.values || [])}
+          sla={urgently?.sla}
+        />
+        <CircleDiagram
+          title="Плановая"
+          segments={toSegments(plan?.values || [])}
+          sla={plan?.sla}
+        />
+        <CircleDiagram
+          title="Запись"
+          segments={toSegments(recording?.values || [])}
+          sla={recording?.sla}
+        />
+        <CircleDiagram
+          title="Претензия"
+          segments={toSegments(claim?.values || [])}
+          sla={claim?.sla}
+        />
+        <CircleDiagram
+          title="Защита +"
+          segments={toSegments(defense?.values || [])}
+          sla={defense?.sla}
+        />
+      </div>
     </div>
   );
 }
