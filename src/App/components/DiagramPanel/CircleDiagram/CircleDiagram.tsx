@@ -17,7 +17,7 @@ function CircleDiagram({ title, segments, sla }) {
 
   return (
     <div className="circle-diagram">
-      <span className="circle-diagram__title">{title}</span>
+      <span className="circle-diagram__title" title={title}>{title}</span>
       <svg width={radius * 2} height={radius * 2}>
         {total === 0 ? (
           <circle
