@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
+import Scripts from "../../shared/utils/clientScripts";
 
 /** Сворачиваемая панель */
-function Panel({ children, label = "", time, onReload }) {
+function DashboardTaskPanelWrapper({ children, label = "", time, onReload }) {
 
   return (
     <div className="medpult-panel-mcp">
@@ -15,6 +16,7 @@ function Panel({ children, label = "", time, onReload }) {
             title="Обновить"
             icon={icons.Update}
             clickHandler={onReload}
+            onInit={Scripts.waitCurrentProccess}
           />
         </div>
       </div>
@@ -23,4 +25,4 @@ function Panel({ children, label = "", time, onReload }) {
   );
 }
 
-export default Panel;
+export default DashboardTaskPanelWrapper;

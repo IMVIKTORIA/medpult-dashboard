@@ -147,7 +147,15 @@ async function updateDashboardData() {
 
 /** Получение последней даты обновления */
 function getLastUpdateDate() {
- return new Date()
+  return new Date()
+}
+
+/** Получение текущего процесса обновления и ожидание его окончания */
+async function waitCurrentProccess() {
+  const hasProccess = Math.random() > 0.5;
+  if(!hasProccess) return
+
+  await randomDelay();
 }
 
 export default {
@@ -162,5 +170,7 @@ export default {
 
   runUpdateProcessData,
   updateDashboardData,
-  getLastUpdateDate
+  getLastUpdateDate,
+
+  waitCurrentProccess
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Panel from "../Panel/Panel";
+import DashboardTaskPanelWrapper from "../Panel/Panel";
 import {
   ListColumnData,
   ItemData,
@@ -113,7 +113,7 @@ function TaskPanel({
 
   return (
     <div className="task-panel">
-      <Panel label={"Задачи"} time={lastUpdateTime} onReload={reloadData}>
+      <DashboardTaskPanelWrapper label={"Задачи"} time={lastUpdateTime} onReload={reloadData}>
         <CustomListSync
             reloadKey={reloadKey}
             columnsSettings={columns}
@@ -122,7 +122,7 @@ function TaskPanel({
             getDetailsLayout={getDetailsLayout}
             hideHeader={false}
           />
-      </Panel>
+      </DashboardTaskPanelWrapper>
       {/*Общая строка*/}
       <div className="total-list-row">
         <CustomListSync

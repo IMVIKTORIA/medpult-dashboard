@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import Loader from "../Loader/Loader";
 
 interface ButtonData extends React.ComponentProps<"button"> {
@@ -6,20 +6,22 @@ interface ButtonData extends React.ComponentProps<"button"> {
   clickHandler: any;
   buttonType?: string;
   icon: any;
+  onInit: () => Promise<void>;
 }
 
 function Button(props: ButtonData) {
-  const { title, buttonType, clickHandler, icon, ...buttonProps } = props;
+  const { title, buttonType, clickHandler, icon, onInit, ...buttonProps } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [loader, setLoader] = useState<ReactNode>(
     <div>
       <Loader />
     </div>
   );
-
-  const loadOnClick = async () => {
-    setIsLoading(true);
+  
+  // Применить ширину кнопки на индикатор загрузки
+  function applyLoaderButtonWidth() {
     const buttonWidth =
       (buttonRef.current?.getBoundingClientRect().width ?? 40) - 40;
     console.log(buttonRef.current);
@@ -29,6 +31,28 @@ function Button(props: ButtonData) {
       </div>
     );
     setLoader(loaderElement);
+  }
+
+  // Запуск скрипта при инициализации
+  async function initialize() {
+    applyLoaderButtonWidth()
+
+    // Если указан обработчик при инициализации
+    if(onInit) {
+      setIsLoading(true);
+      await onInit()
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    initialize();
+  }, [])
+
+
+  const loadOnClick = async () => {
+    setIsLoading(true);
+    
     await clickHandler();
     setIsLoading(false);
   };

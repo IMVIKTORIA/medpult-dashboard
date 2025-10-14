@@ -26,7 +26,7 @@ function DashboardPanel() {
   useEffect(() => {
     const interval = setInterval(
       () => handleLighReloading(),
-      /* 60 * */ 1000
+      60 * 1000
     );
     return () => clearInterval(interval);
   }, []);
