@@ -4,6 +4,7 @@ import icons from "../../shared/icons";
 
 /** Сворачиваемая панель */
 function Panel({ children, label = "", time, onReload }) {
+
   return (
     <div className="medpult-panel-mcp">
       <div className="medpult-panel-mcp__header" style={{ cursor: "text" }}>

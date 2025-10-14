@@ -20,7 +20,8 @@ type ListProps<SearchDataType = any, ItemType = any> = {
     page: number,
     sortData?: SortData,
     searchData?: SearchDataType
-  ) => Promise<FetchData<ItemType>>;
+  // ) => Promise<FetchData<ItemType>>;
+  ) => FetchData<ItemType>;
   /** Есть прокрутка? */
   isScrollable?: boolean;
   /** Высота */
@@ -50,10 +51,11 @@ type ListProps<SearchDataType = any, ItemType = any> = {
   setSelectedItems?: (ids: string[]) => void;
   /** Скрыть шапку */
   hideHeader?: boolean;
+  reloadKey?: number;
 };
 
 /** Список данных в виде таблицы */
-function CustomList<SearchDataType = any, ItemType = any>(
+function CustomListSync<SearchDataType = any, ItemType = any>(
   props: ListProps<SearchDataType, ItemType>
 ) {
   const {
@@ -70,6 +72,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
     selectedItems = [],
     setSelectedItems,
     hideHeader = false,
+    reloadKey
   } = props;
 
   // Страница
@@ -114,7 +117,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
   }, []);
 
   /** Загрузка данных списка */
-  const loadData = async (
+  const loadData = (
     items: any[] = [],
     page: number = 0,
     hasMore: boolean = true
@@ -124,7 +127,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
 
     setIsLoading(true);
 
-    const fetchData = await getDataHandler(page, sortData, searchData);
+    const fetchData = getDataHandler(page, sortData, searchData);
     setHasMore(fetchData.hasMore);
 
     setItems([...items, ...fetchData.items]);
@@ -154,7 +157,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
   /** Обновление оглавления при изменении сортировки */
   useEffect(() => {
     reloadData();
-  }, [sortData]);
+  }, [sortData, reloadKey]);
 
   /** Нажатие на сортировку */
   const handleSortClick = (sortDataNew: SortData | undefined) => {
@@ -290,4 +293,4 @@ function CustomList<SearchDataType = any, ItemType = any>(
   );
 }
 
-export default CustomList;
+export default CustomListSync;

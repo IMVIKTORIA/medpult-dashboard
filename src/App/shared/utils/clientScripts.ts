@@ -11,8 +11,7 @@ function randomDelay() {
 }
 
 /** Получение списка задач */
-async function getTask(): Promise<FetchData<DashboardListData>> {
-  await randomDelay();
+function getTask(): FetchData<DashboardListData> {
 
   const mockData: DashboardListData = {
     group: "Согласование",
@@ -27,13 +26,13 @@ async function getTask(): Promise<FetchData<DashboardListData>> {
 
   const mockGroupItem = new DashboardListData({
     group: "Иванов Иван Иванович",
-    queue: [21, 3, 0],
-    returned: [1, 0, 0],
-    atWork: [13, 4, 1],
-    control: [35, 7, 2],
-    postpone: 21,
-    complete: 104,
-    sla: 75,
+    queue: [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())],
+    returned: [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())],
+    atWork: [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())],
+    control: [Math.floor(50*Math.random()), Math.floor(50*Math.random()), Math.floor(50*Math.random())],
+    postpone: Math.floor(50*Math.random()),
+    complete: Math.floor(50*Math.random()),
+    sla: Math.floor(100*Math.random()),
   });
 
   const mockGroupData = Array(2).fill(mockGroupItem);
@@ -63,8 +62,7 @@ async function getTask(): Promise<FetchData<DashboardListData>> {
   };
 }
 
-async function getTaskSum(): Promise<FetchData<DashboardListData>> {
-  await randomDelay();
+function getTaskSum(): FetchData<DashboardListData> {
 
   const sumData: DashboardListData = {
     group: "Итого:",
@@ -83,36 +81,33 @@ async function getTaskSum(): Promise<FetchData<DashboardListData>> {
   };
 }
 
-async function getRequestData(): Promise<GroupDataBar> {
-  await randomDelay();
+function getRequestData(): GroupDataBar {
   return {
-    count: 360,
-    sla: 91,
+    count: Math.floor(360 * Math.random()),
+    sla: Math.floor(91 * Math.random()),
     values: [
-      { label: "Новое", percent: 45, values: [12, 18, 15] },
-      { label: "В работе", percent: 12, values: [12, 18, 15] },
-      { label: "Открыто", percent: 34, values: [12, 18, 15] },
+      { label: "Новое", percent: Math.floor(45 * Math.random()), values: [Math.floor(12 * Math.random()), Math.floor(18 * Math.random()), Math.floor(15 * Math.random())] },
+      { label: "В работе", percent: Math.floor(12 * Math.random()), values: [Math.floor(12 * Math.random()), Math.floor(18 * Math.random()), Math.floor(15 * Math.random())] },
+      { label: "Открыто", percent: Math.floor(34 * Math.random()), values: [Math.floor(12 * Math.random()), Math.floor(18 * Math.random()), Math.floor(15 * Math.random())] },
     ],
   };
 }
 
-async function getTaskData(): Promise<GroupDataBar> {
-  await randomDelay();
+function getTaskData(): GroupDataBar {
   return {
-    count: 2680,
-    sla: 80,
+    count: Math.floor(2680 * Math.random()),
+    sla: Math.floor(80 * Math.random()),
     values: [
-      { label: "В очереди", percent: 45, values: [12, 0, 15] },
-      { label: "Возвращена", percent: 12, values: [12, 18, 0] },
-      { label: "В работе", percent: 34, values: [12, 0, 0] },
-      { label: "Контроль", percent: 40, values: [12, 18, 15] },
-      { label: "Отложена", percent: 21, values: [12, 18, 15] },
+      { label: "В очереди", percent: Math.floor(45 * Math.random()), values: [Math.floor(12 * Math.random()), Math.floor(0 * Math.random()), Math.floor(15 * Math.random())] },
+      { label: "Возвращена", percent: Math.floor(12 * Math.random()), values: [Math.floor(12 * Math.random()), Math.floor(18 * Math.random()), Math.floor(0 * Math.random())] },
+      { label: "В работе", percent: Math.floor(34 * Math.random()), values: [Math.floor(12 * Math.random()), Math.floor(0 * Math.random()), Math.floor(0 * Math.random())] },
+      { label: "Контроль", percent: Math.floor(40 * Math.random()), values: [Math.floor(12 * Math.random()), Math.floor(18 * Math.random()), Math.floor(15 * Math.random())] },
+      { label: "Отложена", percent: Math.floor(21 * Math.random()), values: [Math.floor(12 * Math.random()), Math.floor(18 * Math.random()), Math.floor(15 * Math.random())] },
     ],
   };
 }
 
-async function getGroupsData(): Promise<GroupData[]> {
-  await randomDelay();
+function getGroupsData(): GroupData[] {
 
   let groupsData: GroupData[] = [];
 
@@ -133,6 +128,26 @@ async function getGroupsData(): Promise<GroupData[]> {
 const groupsBuffer: GroupMockData[] = generateGroupsMock(9);
 async function OnInit(): Promise<void> {
   await randomDelay();
+  await updateDashboardData();
+}
+
+/** Запустить процесс обновления данных Дашборда */
+async function runUpdateProcessData() {
+  const delay = 30 * 1000;
+
+  await new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+}
+
+/** Обновить данные дашборда */
+async function updateDashboardData() {
+  await randomDelay();
+}
+
+/** Получение последней даты обновления */
+function getLastUpdateDate() {
+ return new Date()
 }
 
 export default {
@@ -144,4 +159,8 @@ export default {
 
   OnInit,
   getGroupsData,
+
+  runUpdateProcessData,
+  updateDashboardData,
+  getLastUpdateDate
 };

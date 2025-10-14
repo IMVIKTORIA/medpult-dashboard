@@ -6,31 +6,23 @@ import { GroupData, GroupDataBar } from "../../shared/types";
 import Loader from "../../../UIKit/Loader/Loader";
 
 const COLORS = ["#50DC6B", "#FF4545", "#FF9F45"];
-
-function DiagramPanel() {
+type DiagramPanelProps = {
+  reloadKey: number;
+}
+function DiagramPanel({reloadKey}: DiagramPanelProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   const [request, setRequest] = useState<GroupDataBar | null>(null);
   const [task, setTask] = useState<GroupDataBar | null>(null);
   const [groupsData, setGroupsData] = useState<GroupData[]>([]);
 
-  useEffect(() => {
+  // TODO: Хранить все данные в общем объекте в скриптах, а функции получения сделать синхронными
+  React.useLayoutEffect(() => {
     async function fetchData() {
       try {
-        setIsLoading(true);
-        const [
-          groupsData,
-          taskData,
-          requestData,
-        ] = await Promise.all([
-          Scripts.getGroupsData(),
-          Scripts.getTaskData(),
-          Scripts.getRequestData(),
-        ]);
-
-        setGroupsData(groupsData);
-        setTask(taskData);
-        setRequest(requestData);
+        setGroupsData(Scripts.getGroupsData());
+        setTask(Scripts.getTaskData());
+        setRequest(Scripts.getRequestData());
       } catch (error) {
         console.error("Ошибка при загрузке данных:", error);
       } finally {
@@ -39,7 +31,7 @@ function DiagramPanel() {
     }
 
     fetchData();
-  }, []);
+  }, [reloadKey]);
 
   const toSegments = (values: number[]) => {
     const reordered = [values[0], values[2], values[1]];
@@ -48,6 +40,7 @@ function DiagramPanel() {
       color: COLORS[i] || "#ccc",
     }));
   };
+
   if (isLoading) {
     return <Loader />;
   }

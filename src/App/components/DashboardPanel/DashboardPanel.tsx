@@ -8,17 +8,25 @@ function DashboardPanel() {
   const [isInitializing, setIsInitializing] = useState(true);
   const [reloadKey, setReloadKey] = useState(0);
 
-  const reloadData = () => {
+  /** Легкая перезагрузка без запуска процесса */
+  const handleLighReloading = async () =>  {
+    await Scripts.updateDashboardData();
     setReloadKey((prev) => prev + 1);
+  }
+
+  /** Долгая перезагрузка с запуском процесса */
+  const handleReloadClick = async () => {
+    // При нажатии кнопки запускать процесс обновления данных и получать после процесса обновленные данные
+    await Scripts.runUpdateProcessData();
+
+    await handleLighReloading()
   };
 
-  // Автообновление каждые 5 минут
+  // Автоматическое обновление каждую минуту без запуска процесса
   useEffect(() => {
     const interval = setInterval(
-      () => {
-        setReloadKey((prev) => prev + 1);
-      },
-      5 * 60 * 1000
+      () => handleLighReloading(),
+      /* 60 * */ 1000
     );
     return () => clearInterval(interval);
   }, []);
@@ -26,6 +34,7 @@ function DashboardPanel() {
   useEffect(() => {
     Scripts.OnInit().then(() => setIsInitializing(false));
   }, []);
+  
   return (
     <>
       {isInitializing && (
@@ -35,8 +44,8 @@ function DashboardPanel() {
       )}
       {!isInitializing && (
         <div className="dashboard-panel">
-          <DiagramPanel key={reloadKey} />
-          <TaskPanel reloadKey={reloadKey} onReload={reloadData} />
+          <DiagramPanel reloadKey={reloadKey} />
+          <TaskPanel reloadKey={reloadKey} onReload={handleReloadClick} />
         </div>
       )}
     </>

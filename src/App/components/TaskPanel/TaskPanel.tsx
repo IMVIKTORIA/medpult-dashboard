@@ -4,7 +4,7 @@ import {
   ListColumnData,
   ItemData,
 } from "../../../UIKit/CustomList/CustomListTypes";
-import CustomList from "../../../UIKit/CustomList/CustomList";
+import CustomListSync from "../../../UIKit/CustomList/CustomList";
 import Scripts from "../../shared/utils/clientScripts";
 import { DashboardListData } from "../../shared/types";
 
@@ -14,17 +14,19 @@ function TaskPanel({
   onReload,
 }: {
   reloadKey: number;
-  onReload: () => void;
+  onReload: () => Promise<void>;
 }) {
-  const [lastUpdateTime, setLastUpdateTime] = useState(
-    new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-  );
+  function getLastUpdateTime() {
+    const date = Scripts.getLastUpdateDate();
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  }
+  
+  const [lastUpdateTime, setLastUpdateTime] = useState<string>(getLastUpdateTime());
+  
   // Функция для обновления данных
-  const reloadData = () => {
-    setLastUpdateTime(
-      new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-    );
-    onReload();
+  const reloadData = async () => {
+    await onReload();
+    setLastUpdateTime(getLastUpdateTime());
   };
 
   /** Колонки списка */
@@ -87,7 +89,7 @@ function TaskPanel({
     onClickRowHandler: () => void;
   }) => {
     if (!rowData.groupData || rowData.groupData.length === 0) return null;
-    const getSubDataHandler = async () => {
+    const getSubDataHandler = () => {
       return {
         items: rowData.groupData!.map((data, idx) => ({
           id: `${rowData.group}-${idx}`,
@@ -98,8 +100,8 @@ function TaskPanel({
     };
     return (
       <div style={{ backgroundColor: "#F4F4F5" }}>
-        <CustomList
-          key={reloadKey}
+        <CustomListSync
+          reloadKey={reloadKey}
           columnsSettings={columns}
           getDataHandler={getSubDataHandler}
           isScrollable={false}
@@ -112,8 +114,8 @@ function TaskPanel({
   return (
     <div className="task-panel">
       <Panel label={"Задачи"} time={lastUpdateTime} onReload={reloadData}>
-        <CustomList
-            key={reloadKey}
+        <CustomListSync
+            reloadKey={reloadKey}
             columnsSettings={columns}
             getDataHandler={Scripts.getTask}
             isScrollable={false}
@@ -123,7 +125,7 @@ function TaskPanel({
       </Panel>
       {/*Общая строка*/}
       <div className="total-list-row">
-        <CustomList
+        <CustomListSync
           key={reloadKey}
           columnsSettings={columns}
           getDataHandler={Scripts.getTaskSum}
